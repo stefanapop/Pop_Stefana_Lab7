@@ -53,15 +53,17 @@ namespace Pop_Stefana_Lab7
             ctx.Inventories.Load();
 
             customerOrdersViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("customerOrdersViewSource")));
-            customerOrdersViewSource.Source = ctx.Orders.Local;
+            //customerOrdersViewSource.Source = ctx.Orders.Local;
             ctx.Orders.Load();
 
             cmbCustomers.ItemsSource = ctx.Customers.Local;
-            cmbCustomers.DisplayMemberPath = "FirstName";
+            //cmbCustomers.DisplayMemberPath = "FirstName";
             cmbCustomers.SelectedValuePath = "CustId";
             cmbInventory.ItemsSource = ctx.Inventories.Local;
-            cmbInventory.DisplayMemberPath = "Make";
+            //cmbInventory.DisplayMemberPath = "Make";
             cmbInventory.SelectedValuePath = "CarId";
+
+            BindDataGrid();
         }
         
         //for Customers
@@ -78,6 +80,7 @@ namespace Pop_Stefana_Lab7
                         FirstName = firstNameTextBox.Text.Trim(),
                         LastName = lastNameTextBox.Text.Trim()
                     };
+                    SetValidationBinding();
                     //adaugam entitatea nou creata in context
                     ctx.Customers.Add(customer);
                     customerViewSource.View.Refresh();
@@ -106,6 +109,7 @@ namespace Pop_Stefana_Lab7
                     customer = (Customer)customerDataGrid.SelectedItem;
                     customer.FirstName = firstNameTextBox.Text.Trim();
                     customer.LastName = lastNameTextBox.Text.Trim();
+                    SetValidationBinding();
                     //salvam modificarile
                     ctx.SaveChanges();
                 }
@@ -288,48 +292,46 @@ namespace Pop_Stefana_Lab7
             }
             else if (action == ActionState.Edit)
             {
+                dynamic selectedOrder = ordersDataGrid.SelectedItem;
                 try
                 {
-                    Customer customer = (Customer)cmbCustomers.SelectedItem;
-                    Inventory inventory = (Inventory)cmbInventory.SelectedItem;
-                    //salvam modificarile
-                    ctx.SaveChanges();
+                    int curr_id = selectedOrder.OrderId;
+                    var editedOrder = ctx.Orders.FirstOrDefault(s => s.OrderId == curr_id);
+                    if (editedOrder != null)
+                    {
+                        editedOrder.CustId = Int32.Parse(cmbCustomers.SelectedValue.ToString());
+                        editedOrder.CarId = Convert.ToInt32(cmbInventory.SelectedValue.ToString());
+                        //salvam modificarile
+                        ctx.SaveChanges();
+                    }
                 }
                 catch (DataException ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
-                customerOrdersViewSource.View.Refresh();
+                BindDataGrid();
                 // pozitionarea pe item-ul curent
-                customerOrdersViewSource.View.MoveCurrentTo(order);
-                btnNew.IsEnabled = true;
-                btnEdit.IsEnabled = true;
-                btnSave.IsEnabled = false;
-                btnCancel.IsEnabled = false;
-                btnDelete.IsEnabled = true;
-                btnPrev.IsEnabled = true;
-                btnNext.IsEnabled = true;
+                customerViewSource.View.MoveCurrentTo(selectedOrder);
             }
             else if (action == ActionState.Delete)
             {
                 try
                 {
-                    Customer customer = (Customer)cmbCustomers.SelectedItem;
-                    Inventory inventory = (Inventory)cmbInventory.SelectedItem;
-                    ctx.Orders.Remove(order);
-                    ctx.SaveChanges();
+                    dynamic selectedOrder = ordersDataGrid.SelectedItem;
+                    int curr_id = selectedOrder.OrderId;
+                    var deletedOrder = ctx.Orders.FirstOrDefault(s => s.OrderId == curr_id);
+                    if (deletedOrder != null)
+                    {
+                        ctx.Orders.Remove(deletedOrder);
+                        ctx.SaveChanges();
+                        MessageBox.Show("Order Deleted Successfully", "Message");
+                        BindDataGrid();
+                    }
                 }
                 catch (DataException ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
-                customerViewSource.View.Refresh();
-                btnNew.IsEnabled = true;
-                btnEdit.IsEnabled = true;
-                btnSave.IsEnabled = false;
-                btnCancel.IsEnabled = false;
-                btnPrev.IsEnabled = true;
-                btnNext.IsEnabled = true;
             }
         }
 
@@ -341,6 +343,50 @@ namespace Pop_Stefana_Lab7
         private void btnPrevO_Click(object sender, RoutedEventArgs e)
         {
             customerOrdersViewSource.View.MoveCurrentToPrevious();
+        }
+        private void BindDataGrid()
+        {
+            var queryOrder = from ord in ctx.Orders
+                             join cust in ctx.Customers on ord.CustId equals
+                             cust.CustId
+                             join inv in ctx.Inventories on ord.CarId
+                 equals inv.CarId
+                             select new
+                             {
+                                 ord.OrderId,
+                                 ord.CarId,
+                                 ord.CustId,
+                                 cust.FirstName,
+                                 cust.LastName,
+                                 inv.Make,
+                                 inv.Color
+                             };
+            customerOrdersViewSource.Source = queryOrder.ToList();
+        }
+        private void SetValidationBinding()
+        {
+            Binding firstNameValidationBinding = new Binding();
+            firstNameValidationBinding.Source = customerViewSource;
+            firstNameValidationBinding.Path = new PropertyPath("FirstName");
+            firstNameValidationBinding.NotifyOnValidationError = true;
+            firstNameValidationBinding.Mode = BindingMode.TwoWay;
+            firstNameValidationBinding.UpdateSourceTrigger =
+           UpdateSourceTrigger.PropertyChanged;
+            //string required
+            firstNameValidationBinding.ValidationRules.Add(new StringNotEmpty());
+            firstNameTextBox.SetBinding(TextBox.TextProperty,
+           firstNameValidationBinding);
+            Binding lastNameValidationBinding = new Binding();
+            lastNameValidationBinding.Source = customerViewSource;
+            lastNameValidationBinding.Path = new PropertyPath("LastName");
+            lastNameValidationBinding.NotifyOnValidationError = true;
+            lastNameValidationBinding.Mode = BindingMode.TwoWay;
+            lastNameValidationBinding.UpdateSourceTrigger =
+           UpdateSourceTrigger.PropertyChanged;
+            //string min length validator
+            lastNameValidationBinding.ValidationRules.Add(new StringMinLengthValidator());
+            lastNameTextBox.SetBinding(TextBox.TextProperty,
+           lastNameValidationBinding); //setare binding nou
         }
     }
 }
