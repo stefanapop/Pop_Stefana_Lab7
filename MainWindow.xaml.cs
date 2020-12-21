@@ -65,8 +65,76 @@ namespace Pop_Stefana_Lab7
 
             BindDataGrid();
         }
-        
+
         //for Customers
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+            action = ActionState.New;
+            btnNew.IsEnabled = false;
+            btnEdit.IsEnabled = false;
+            btnDelete.IsEnabled = false;
+
+            btnSave.IsEnabled = true;
+            btnCancel.IsEnabled = true;
+            btnPrev.IsEnabled = false;
+            btnNext.IsEnabled = false;
+            firstNameTextBox.IsEnabled = true;
+            lastNameTextBox.IsEnabled = true;
+            BindingOperations.ClearBinding(firstNameTextBox, TextBox.TextProperty);
+            BindingOperations.ClearBinding(lastNameTextBox, TextBox.TextProperty);
+            firstNameTextBox.Text = "";
+            lastNameTextBox.Text = "";
+            Keyboard.Focus(firstNameTextBox);
+        }
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            action = ActionState.Edit;
+            string tempFirstName = firstNameTextBox.Text.ToString();
+            string tempLastName = lastNameTextBox.Text.ToString();
+            btnNew.IsEnabled = false;
+            btnEdit.IsEnabled = false;
+            btnDelete.IsEnabled = false;
+            btnSave.IsEnabled = true;
+            btnCancel.IsEnabled = true;
+            btnPrev.IsEnabled = false;
+            btnNext.IsEnabled = false;
+            firstNameTextBox.IsEnabled = true;
+            lastNameTextBox.IsEnabled = true;
+            BindingOperations.ClearBinding(firstNameTextBox, TextBox.TextProperty);
+            BindingOperations.ClearBinding(lastNameTextBox, TextBox.TextProperty);
+            firstNameTextBox.Text = tempFirstName;
+            lastNameTextBox.Text = tempLastName;
+            Keyboard.Focus(firstNameTextBox);
+        }
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            action = ActionState.Delete;
+            string tempFirstName = firstNameTextBox.Text.ToString();
+            string tempLastName = lastNameTextBox.Text.ToString();
+            btnNew.IsEnabled = false;
+            btnEdit.IsEnabled = false;
+            btnDelete.IsEnabled = false;
+            btnSave.IsEnabled = true;
+            btnCancel.IsEnabled = true;
+            btnPrev.IsEnabled = false;
+            btnNext.IsEnabled = false;
+            BindingOperations.ClearBinding(firstNameTextBox, TextBox.TextProperty);
+            BindingOperations.ClearBinding(lastNameTextBox, TextBox.TextProperty);
+            firstNameTextBox.Text = tempFirstName;
+            lastNameTextBox.Text = tempLastName;
+        }
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            action = ActionState.Nothing;
+            btnNew.IsEnabled = true;
+            btnEdit.IsEnabled = true;
+            btnSave.IsEnabled = false;
+            btnCancel.IsEnabled = false;
+            btnPrev.IsEnabled = true;
+            btnNext.IsEnabled = true;
+            firstNameTextBox.IsEnabled = false;
+            lastNameTextBox.IsEnabled = false;
+        }
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             Customer customer = null;
@@ -127,8 +195,8 @@ namespace Pop_Stefana_Lab7
                 btnDelete.IsEnabled = true;
                 btnPrev.IsEnabled = true;
                 btnNext.IsEnabled = true;
-                firstNameTextBox.IsEnabled = true;
-                lastNameTextBox.IsEnabled = true;
+                firstNameTextBox.IsEnabled = false;
+                lastNameTextBox.IsEnabled = false;
             }
             else if (action == ActionState.Delete)
             {
@@ -165,6 +233,74 @@ namespace Pop_Stefana_Lab7
         }
 
         //for Inventory
+        private void btnNewI_Click(object sender, RoutedEventArgs e)
+        {
+            action = ActionState.New;
+            btnNewI.IsEnabled = false;
+            btnEditI.IsEnabled = false;
+            btnDeleteI.IsEnabled = false;
+
+            btnSaveI.IsEnabled = true;
+            btnCancelI.IsEnabled = true;
+            btnPrevI.IsEnabled = false;
+            btnNextI.IsEnabled = false;
+            colorTextBox.IsEnabled = true;
+            makeTextBox.IsEnabled = true;
+            BindingOperations.ClearBinding(colorTextBox, TextBox.TextProperty);
+            BindingOperations.ClearBinding(makeTextBox, TextBox.TextProperty);
+            colorTextBox.Text = "";
+            makeTextBox.Text = "";
+            Keyboard.Focus(colorTextBox);
+        }
+        private void btnEditI_Click(object sender, RoutedEventArgs e)
+        {
+            action = ActionState.Edit;
+            string tempColor = colorTextBox.Text.ToString();
+            string tempMake = makeTextBox.Text.ToString();
+            btnNewI.IsEnabled = false;
+            btnEditI.IsEnabled = false;
+            btnDeleteI.IsEnabled = false;
+            btnSaveI.IsEnabled = true;
+            btnCancelI.IsEnabled = true;
+            btnPrevI.IsEnabled = false;
+            btnNextI.IsEnabled = false;
+            colorTextBox.IsEnabled = true;
+            makeTextBox.IsEnabled = true;
+            BindingOperations.ClearBinding(colorTextBox, TextBox.TextProperty);
+            BindingOperations.ClearBinding(makeTextBox, TextBox.TextProperty);
+            colorTextBox.Text = tempColor;
+            makeTextBox.Text = tempMake;
+            Keyboard.Focus(colorTextBox);
+        }
+        private void btnDeleteI_Click(object sender, RoutedEventArgs e)
+        {
+            action = ActionState.Delete;
+            string tempColor = colorTextBox.Text.ToString();
+            string tempMake = makeTextBox.Text.ToString();
+            btnNewI.IsEnabled = false;
+            btnEditI.IsEnabled = false;
+            btnDeleteI.IsEnabled = false;
+            btnSaveI.IsEnabled = true;
+            btnCancelI.IsEnabled = true;
+            btnPrevI.IsEnabled = false;
+            btnNextI.IsEnabled = false;
+            BindingOperations.ClearBinding(colorTextBox, TextBox.TextProperty);
+            BindingOperations.ClearBinding(makeTextBox, TextBox.TextProperty);
+            colorTextBox.Text = tempColor;
+            makeTextBox.Text = tempMake;
+        }
+        private void btnCancelI_Click(object sender, RoutedEventArgs e)
+        {
+            action = ActionState.Nothing;
+            btnNewI.IsEnabled = true;
+            btnEditI.IsEnabled = true;
+            btnSaveI.IsEnabled = false;
+            btnCancelI.IsEnabled = false;
+            btnPrevI.IsEnabled = true;
+            btnNextI.IsEnabled = true;
+            colorTextBox.IsEnabled = false;
+            makeTextBox.IsEnabled = false;
+        }
         private void btnSaveI_Click(object sender, RoutedEventArgs e)
         {
             Inventory inventory = null;
@@ -189,13 +325,15 @@ namespace Pop_Stefana_Lab7
                 {
                     MessageBox.Show(ex.Message);
                 }
-                btnNew.IsEnabled = true;
-                btnEdit.IsEnabled = true;
-                btnSave.IsEnabled = false;
-                btnCancel.IsEnabled = false;
-                btnDelete.IsEnabled = true;
-                btnPrev.IsEnabled = true;
-                btnNext.IsEnabled = true;
+                btnNewI.IsEnabled = true;
+                btnEditI.IsEnabled = true;
+                btnSaveI.IsEnabled = false;
+                btnCancelI.IsEnabled = false;
+                btnDeleteI.IsEnabled = true;
+                btnPrevI.IsEnabled = true;
+                btnNextI.IsEnabled = true;
+                colorTextBox.IsEnabled = false;
+                makeTextBox.IsEnabled = false;
             }
             else if (action == ActionState.Edit)
             {
@@ -214,13 +352,15 @@ namespace Pop_Stefana_Lab7
                 inventoryViewSource.View.Refresh();
                 // pozitionarea pe item-ul curent
                 inventoryViewSource.View.MoveCurrentTo(inventory);
-                btnNew.IsEnabled = true;
-                btnEdit.IsEnabled = true;
-                btnSave.IsEnabled = false;
-                btnCancel.IsEnabled = false;
-                btnDelete.IsEnabled = true;
-                btnPrev.IsEnabled = true;
-                btnNext.IsEnabled = true;
+                btnNewI.IsEnabled = true;
+                btnEditI.IsEnabled = true;
+                btnSaveI.IsEnabled = false;
+                btnCancelI.IsEnabled = false;
+                btnDeleteI.IsEnabled = true;
+                btnPrevI.IsEnabled = true;
+                btnNextI.IsEnabled = true;
+                colorTextBox.IsEnabled = false;
+                makeTextBox.IsEnabled = false;
             }
             else if (action == ActionState.Delete)
             {
@@ -235,12 +375,14 @@ namespace Pop_Stefana_Lab7
                     MessageBox.Show(ex.Message);
                 }
                 inventoryViewSource.View.Refresh();
-                btnNew.IsEnabled = true;
-                btnEdit.IsEnabled = true;
-                btnSave.IsEnabled = false;
-                btnCancel.IsEnabled = false;
-                btnPrev.IsEnabled = true;
-                btnNext.IsEnabled = true;
+                btnNewI.IsEnabled = true;
+                btnEditI.IsEnabled = true;
+                btnSaveI.IsEnabled = false;
+                btnCancelI.IsEnabled = false;
+                btnPrevI.IsEnabled = true;
+                btnNextI.IsEnabled = true;
+                colorTextBox.IsEnabled = false;
+                makeTextBox.IsEnabled = false;
             }
         }
 
@@ -255,6 +397,7 @@ namespace Pop_Stefana_Lab7
         }
 
         //for Orders
+       
         private void btnSaveO_Click(object sender, RoutedEventArgs e)
         {
             Order order = null;
@@ -388,5 +531,7 @@ namespace Pop_Stefana_Lab7
             lastNameTextBox.SetBinding(TextBox.TextProperty,
            lastNameValidationBinding); //setare binding nou
         }
+
+        
     }
 }
