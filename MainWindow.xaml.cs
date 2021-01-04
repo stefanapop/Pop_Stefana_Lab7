@@ -128,6 +128,7 @@ namespace Pop_Stefana_Lab7
             action = ActionState.Nothing;
             btnNew.IsEnabled = true;
             btnEdit.IsEnabled = true;
+            btnDeleteO.IsEnabled = true;
             btnSave.IsEnabled = false;
             btnCancel.IsEnabled = false;
             btnPrev.IsEnabled = true;
@@ -294,6 +295,7 @@ namespace Pop_Stefana_Lab7
             action = ActionState.Nothing;
             btnNewI.IsEnabled = true;
             btnEditI.IsEnabled = true;
+            btnDeleteO.IsEnabled = true;
             btnSaveI.IsEnabled = false;
             btnCancelI.IsEnabled = false;
             btnPrevI.IsEnabled = true;
@@ -516,6 +518,7 @@ namespace Pop_Stefana_Lab7
             action = ActionState.Nothing;
             btnNewO.IsEnabled = true;
             btnEditO.IsEnabled = true;
+            btnDeleteO.IsEnabled = true;
             btnSaveO.IsEnabled = false;
             btnCancelO.IsEnabled = false;
             btnPrevO.IsEnabled = true;
