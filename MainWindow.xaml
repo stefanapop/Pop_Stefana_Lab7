@@ -160,11 +160,11 @@
                             <DataGridTextColumn x:Name="orderIdColumn" Binding="{Binding OrderId}" Header="Order Id" Width="SizeToHeader"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button x:Name="btnNewO" Content="New" HorizontalAlignment="Left" Margin="28,46,0,0" VerticalAlignment="Top" Width="76" Grid.ColumnSpan="2"/>
-                    <Button x:Name="btnEditO" Content="Edit" HorizontalAlignment="Left" Margin="28,92,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
-                    <Button x:Name="btnDeleteO" Content="Delete" HorizontalAlignment="Left" Margin="28,140,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                    <Button x:Name="btnNewO" Content="New" HorizontalAlignment="Left" Margin="28,46,0,0" VerticalAlignment="Top" Width="76" Grid.ColumnSpan="2" Click="btnNewO_Click"/>
+                    <Button x:Name="btnEditO" Content="Edit" HorizontalAlignment="Left" Margin="28,92,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2" Click="btnEditO_Click"/>
+                    <Button x:Name="btnDeleteO" Content="Delete" HorizontalAlignment="Left" Margin="28,140,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2" Click="btnDeleteO_Click"/>
                     <Button x:Name="btnSaveO" Content="Save" HorizontalAlignment="Left" Margin="29,226,0,0" VerticalAlignment="Top" Width="75" Click="btnSaveO_Click" Grid.ColumnSpan="2"/>
-                    <Button x:Name="btnCancelO" Content="Cancel" HorizontalAlignment="Left" Margin="29,264,0,0" VerticalAlignment="Top" Width="74" Grid.ColumnSpan="2"/>
+                    <Button x:Name="btnCancelO" Content="Cancel" HorizontalAlignment="Left" Margin="29,264,0,0" VerticalAlignment="Top" Width="74" Grid.ColumnSpan="2" Click="btnCancelO_Click"/>
                     <Button x:Name="btnPrevO" Content="Previous" HorizontalAlignment="Left" Margin="171,269,0,0" VerticalAlignment="Top" Width="75" Click="btnPrevO_Click" Grid.Column="1"/>
                     <Button x:Name="btnNextO" Content="Next" HorizontalAlignment="Left" Margin="498,269,0,0" VerticalAlignment="Top" Width="75" Click="btnNextO_Click" Grid.Column="1"/>
 
